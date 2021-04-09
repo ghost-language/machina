@@ -1,0 +1,9 @@
+version: '2'
+services:
+    app:
+        build:
+            context: ./docker/app
+            dockerfile: Dockerfile
+        image: machine/app
+        volumes:
+            - .:/go/src/app

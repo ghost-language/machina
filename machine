@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
 
-UNAMEOUT="$(uname -s)"
+VERSION="0.0.1"
 
-WHITE='\033[1;37m'
+# Define colors that are used in the help screen
+SEQ="\x1b["
+GREEN=${SEQ}"0;32m"
+YELLOW=${SEQ}"33;01m"
+CYAN=${SEQ}"0;36m"
+WHITE=${SEQ}"0;37m"
 NC='\033[0m'
 
 # Verify operating system is supported...
+UNAMEOUT="$(uname -s)"
+
 case "${UNAMEOUT}" in
     Linux*)     MACHINE=linux;;
     Darwin*)    MACHINE=mac;;
@@ -61,7 +68,39 @@ function machine_is_not_running {
     exit 1
 }
 
+function showVersion {
+    intro="\n🦾  ${GREEN}Machine for Ghost${NC}\n"
+    intro="$intro    ${CYAN}Version ${VERSION}\n${NC}"
+
+    printf "$intro\n"
+}
+
+function showHelp {
+    showVersion
+
+    usage="${YELLOW}Usage:\n${NC}"
+    usage="$usage  ./machine <cmd> <options>"
+
+    examples="${YELLOW}Examples:\n${NC}"
+    examples="$examples  ${CYAN}$ ./machine start${NC}\n"
+    examples="$examples  ${CYAN}$ ./machine stop${NC}\n"
+
+    printf "$usage\n\n"
+    printf "$examples\n"
+}
+
 if [ $# -gt 0 ]; then
+
+    if [ "$1" == "--version" ] || [ "$1" == "-v" ] || [ "$1" == "version" ]; then
+        showVersion
+        exit 1
+    fi
+
+    if [ "$1" == "--help" ] || [ "$1" == "-h" ] || [ "$1" == "help" ]; then
+        showHelp
+        exit 1
+    fi
+
     # Proxy Go commands to the "go" binary on the application container...
     if [ "$1" == "go" ]; then
         shift 1
