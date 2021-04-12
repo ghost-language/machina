@@ -4,6 +4,6 @@ services:
         build:
             context: ./docker/app
             dockerfile: Dockerfile
-        image: machine/app
+        image: machina/app
         volumes:
             - .:/go/src/app

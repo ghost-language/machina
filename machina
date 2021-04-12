@@ -20,7 +20,7 @@ case "${UNAMEOUT}" in
 esac
 
 if [ "$MACHINE" == "UNKNOWN" ]; then
-    echo "Unsupported operating system [$(uname -s)]. Machine supports macOS, Linux, and Windows (WSL2)." >&2
+    echo "Unsupported operating system [$(uname -s)]. Machina supports macOS, Linux, and Windows (WSL2)." >&2
 
     exit 1
 fi
@@ -44,11 +44,11 @@ if ! docker info > /dev/null 2>&1; then
     exit 1
 fi
 
-# Determine if Machine is currently up...
+# Determine if Machina is currently up...
 PSRESULT="$(docker-compose ps -q)"
 
 if docker-compose ps | grep 'Exit'; then
-    echo -e "${WHITE}Shutting down old Machine processes...${NC}" >&2
+    echo -e "${WHITE}Shutting down old Machina processes...${NC}" >&2
 
     docker-compose down > /dev/null 2>&1
 
@@ -59,17 +59,17 @@ else
     EXEC="no"
 fi
 
-# Function that outputs Machine is not running...
+# Function that outputs Machina is not running...
 function machine_is_not_running {
-    echo -e "${WHITE}Machine is not running.${NC}" >&2
+    echo -e "${WHITE}Machina is not running.${NC}" >&2
     echo "" >&2
-    echo -e "${WHITE}You may run Machine using the following commands:${NC} './bin/machine up' or './bin/machine up -d'" >&2
+    echo -e "${WHITE}You may run Machina using the following commands:${NC} './bin/machine up' or './bin/machine up -d'" >&2
 
     exit 1
 }
 
 function showVersion {
-    intro="\n🦾  ${GREEN}Machine for Ghost${NC}\n"
+    intro="\n🦾  ${GREEN}Machina for Ghost${NC}\n"
     intro="$intro    ${CYAN}Version ${VERSION}\n${NC}"
 
     printf "$intro\n"
